@@ -2,15 +2,16 @@
 Wallpaper Handler Module
 Handles downloading, selecting, and setting desktop wallpapers.
 """
-import os
-import random
-import logging
-import platform
 import ctypes
+import logging
+import os
+import platform
+import random
 import shutil
 import subprocess
 from datetime import datetime
 from urllib.parse import urlparse
+
 import requests
 
 logger = logging.getLogger(__name__)
@@ -36,14 +37,15 @@ class WallpaperHandler:
         if source.startswith(('http://', 'https://')):
             return self.download_wallpaper(source)
         
+        # If source is a specific file, return it if it exists
+        if os.path.isfile(source):
+            return source
+            
         # If source is a local directory, select a file
         if os.path.isdir(source):
             return self.select_wallpaper_from_directory(source)
         
-        # If source is a specific file, return it
-        if os.path.isfile(source):
-            return source
-            
+        # If we get here, the source doesn't exist or is invalid
         logger.error(f"Invalid source configuration: {source}")
         return None
     

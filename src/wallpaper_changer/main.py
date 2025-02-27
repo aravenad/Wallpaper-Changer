@@ -3,12 +3,12 @@
 Wallpaper Changer - Main Module
 Automatically changes desktop wallpaper based on configured settings.
 """
-import os
-import sys
 import argparse
 import logging
-from datetime import datetime
+import os
+import sys
 import time
+from datetime import datetime
 
 from .config import Config
 from .wallpaper_handler import WallpaperHandler
@@ -58,7 +58,7 @@ def main():
             # Change wallpaper once and exit
             handler.change_wallpaper()
             logger.info("Wallpaper changed successfully. Exiting.")
-            return
+            sys.exit(0)  # Explicitly call sys.exit instead of return
             
         # Start the main loop
         interval_minutes = config.get('interval', 30)  # Default 30 minutes
@@ -75,12 +75,12 @@ def main():
             except Exception as e:
                 logger.error(f"Error in main loop: {e}")
                 time.sleep(60)  # Wait a minute before retrying
+        
+        sys.exit(0)  # Explicitly call sys.exit instead of return
                 
     except Exception as e:
         logger.error(f"Unhandled exception: {e}")
-        return 1
-    
-    return 0
+        sys.exit(1)  # Explicitly call sys.exit instead of return
 
 if __name__ == "__main__":
     sys.exit(main())
