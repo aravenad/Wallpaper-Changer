@@ -13,6 +13,8 @@ ENV/
 dist/
 build/
 *.egg-info/
+setup.py
+# We're using pyproject.toml instead of setup.py
 
 # Downloaded wallpapers and images
 wallpapers/
@@ -60,9 +62,9 @@ coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
-.pytest_cache/
 cover/
 nosetests.xml
 coverage.html
 junit.xml
 tests/report/
+pytest_coverage.log

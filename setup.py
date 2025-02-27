@@ -1,25 +1,26 @@
-from setuptools import setup, find_packages
+"""
+This file is deprecated. Please use pyproject.toml instead.
 
-setup(
-    name="wallpaper_changer",
-    version="0.1.0",
-    description="Automatically change your desktop wallpaper using Unsplash images",
-    author="Damien",
-    packages=find_packages(),
-    python_requires=">=3.6",
-    install_requires=[
-        "requests>=2.25.0",
-        "keyboard>=0.13.5",
-        "pywin32>=300",
-        "pillow",
-        "colorama>=0.4.4",
-    ],
-    extras_require={
-        "dev": [
-            "pytest>=6.0.0",
-            "pytest-cov",
-            "black",
-            "pylint",
-        ],
-    },
+This file is kept temporarily for backward compatibility and 
+will be removed in the future.
+"""
+
+import warnings
+
+warnings.warn(
+    "Using setup.py is deprecated. Please use pyproject.toml for package configuration.", 
+    DeprecationWarning,
+    stacklevel=2
 )
+
+from setuptools import setup
+
+if __name__ == "__main__":
+    setup(
+        name="wallpaper-changer",
+        version="0.1.0",
+        description="An application to automatically change desktop wallpapers",
+        author="Damien",
+        # Minimal setup to keep backward compatibility
+        # All actual configuration is in pyproject.toml
+    )
