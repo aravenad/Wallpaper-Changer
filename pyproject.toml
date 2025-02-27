@@ -10,10 +10,10 @@ readme = "README.md"
 requires-python = ">=3.7"
 license = {text = "MIT"}
 authors = [
-    {name = "Damien", email = "example@example.com"}
+    {name = "Damien", email = "damien.aravena@gmail.com"}
 ]
 maintainers = [
-    {name = "Damien", email = "example@example.com"}
+    {name = "Damien", email = "damien.aravena@gmail.com"}
 ]
 keywords = ["wallpaper", "desktop", "automation"]
 classifiers = [
@@ -52,8 +52,8 @@ dev = [
 wallpaper-changer = "wallpaper_changer.main:main"
 
 [tool.setuptools]
+package-dir = {"" = "src"}
 packages = ["wallpaper_changer"]
-package-dir = {"wallpaper_changer" = "."}
 
 [tool.pytest]
 testpaths = ["tests"]
