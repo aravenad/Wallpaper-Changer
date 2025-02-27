@@ -1,0 +1,29 @@
+2025-02-27 18:23:13 [ERROR] Traceback (most recent call last):
+  File "C:\Users\Damien\Desktop\Python\wallpaper_changer\tests\test_logger_enhanced.py", line 32, in test_log_traceback
+    raise ValueError("Test error")
+ValueError: Test error
+
+2025-02-27 18:26:12,204 - test_logger - DEBUG - Debug message
+2025-02-27 18:26:12,216 - trace_logger - ERROR - Traceback (most recent call last):
+  File "C:\Users\Damien\Desktop\Python\wallpaper_changer\tests\test_logger_enhanced.py", line 32, in test_log_traceback
+    raise ValueError("Test error")
+ValueError: Test error
+
+2025-02-27 18:27:09,041 - test_logger - DEBUG - Debug message
+2025-02-27 18:27:09,056 - trace_logger - ERROR - Traceback (most recent call last):
+  File "C:\Users\Damien\Desktop\Python\wallpaper_changer\tests\test_logger_enhanced.py", line 32, in test_log_traceback
+    raise ValueError("Test error")
+ValueError: Test error
+
+2025-02-27 18:34:44,182 - test_logger - DEBUG - Debug message
+2025-02-27 18:34:44,198 - trace_logger - ERROR - Traceback (most recent call last):
+  File "C:\Users\Damien\Desktop\Python\wallpaper_changer\tests\test_logger_enhanced.py", line 32, in test_log_traceback
+    raise ValueError("Test error")
+ValueError: Test error
+
+2025-02-27 18:47:49,761 - test_logger - DEBUG - Debug message
+2025-02-27 18:47:49,799 - trace_logger - ERROR - Traceback (most recent call last):
+  File "C:\Users\Damien\Desktop\Python\wallpaper_changer\tests\test_logger_enhanced.py", line 32, in test_log_traceback
+    raise ValueError("Test error")
+ValueError: Test error
+
