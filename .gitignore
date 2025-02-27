@@ -1,20 +1,22 @@
-# Python cache files
+# Python cache and bytecode files
 __pycache__/
+*/__pycache__/
+*/*/__pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+*.py.bak
+*.py~
 
 # Virtual environments
-venv/
-env/
 .venv/
-ENV/
 
 # Distribution / packaging
 dist/
 build/
 *.egg-info/
-setup.py
-# We're using pyproject.toml instead of setup.py
 
 # Downloaded wallpapers and images
 wallpapers/

@@ -5,7 +5,7 @@
 
 Automatically changes your desktop wallpaper at regular intervals with beautiful high-resolution images from Unsplash.
 
-![Wallpaper Example](./img/wallpaper.jpg)
+![Wallpaper Example](./img/example/readme.jpg)
 
 ## ✨ Features
 
@@ -20,86 +20,104 @@ Automatically changes your desktop wallpaper at regular intervals with beautiful
 ## 🔧 Requirements
 
 - Python 3.6 or higher
-- Windows operating system (wallpaper setting is Windows-specific)
+- Windows, macOS, or Linux (cross-platform support)
 - Internet connection for downloading images
 
 ## 🚀 Quick Start
 
-### Method 1: Simple Installation (Recommended)
+### For End Users
+
+**Windows:**
+```bash
+# Just run the batch script:
+run.bat
+```
+
+**macOS/Linux:**
+```bash
+# Make the script executable (first time only):
+chmod +x run.sh
+
+# Run the script:
+./run.sh
+```
+
+### For Developers
 
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/yourusername/wallpaper_changer.git
-   cd wallpaper_changer
+   git clone https://github.com/yourusername/wallpaper-changer.git
+   cd wallpaper-changer
    ```
 
-2. Install dependencies:
+2. Set up a virtual environment and install dependencies:
    ```bash
-   pip install -r requirements.txt
+   # Windows:
+   setup.bat
+   
+   # macOS/Linux:
+   ./setup.sh
    ```
 
-3. Run the application:
+   Alternatively, use the helper script directly:
    ```bash
-   python wallpaper_changer.py --interval auto --categories-list
+   python create_venv.py
    ```
 
-### Method 2: For Windows Users
-
-1. Download and extract the repository
-2. Double-click on `run.bat`
-3. Follow the on-screen prompts to select categories
+3. Activate the environment:
+   ```bash
+   # Windows:
+   .venv\Scripts\activate
+   
+   # macOS/Linux:
+   source .venv/bin/activate
+   ```
 
 ## 🎮 Usage
 
 ### Command-line Arguments
 
-- `-i, --interval`: Interval in minutes between updates (default: 1.5, use "auto" for adaptive)
-- `-c, --category`: Single category to use (e.g. 'nature', 'space', 'random')
-- `--categories-list`: Show available categories and prompt for selection
+```bash
+wallpaper-changer [options]
+
+Options:
+  --config, -c    Path to a custom configuration file (default: settings.json)
+  --interval, -i  Time between wallpaper changes in minutes
+  --source, -s    Directory or URL for wallpapers
+  --once          Change wallpaper once and exit
+```
 
 ### Examples
 
 ```bash
-# Use auto interval with interactive category selection
-python wallpaper_changer.py --interval auto --categories-list
+# Change wallpaper once and exit
+wallpaper-changer --once
 
-# Update every 5 minutes with nature images
-python wallpaper_changer.py --interval 5 --category nature
+# Use images from a specific folder with a 1-hour interval
+wallpaper-changer --source "C:\My Wallpapers" --interval 60
 
-# Use multiple categories in one command
-python wallpaper_changer.py --interval auto --category "nature space architecture"
+# Use custom configuration file
+wallpaper-changer --config my_settings.json
 ```
-
-### Keyboard Shortcuts
-
-These shortcuts work only when the desktop is in focus:
-
-- `n`: Manually get a new wallpaper
-- `s`: Save the current wallpaper to the saved folder
-- `q`: Quit the application
 
 ## ⚙️ Configuration
 
-Edit `src/config.py` to change settings:
+Edit `settings.json` to change settings or create your own configuration file:
 
-```python
-# Unsplash API configuration
-ACCESS_KEY = "your-unsplash-api-key"  # Default key is for demo use only
-
-# Update settings
-RESERVED_FOR_MANUAL = 10              # Reserve requests for manual override
-MANUAL_COOLDOWN = 60                  # Seconds to wait between manual updates
-DEFAULT_INTERVAL = 1.5                # Default interval (minutes)
-
-# Directory settings 
-IMG_DIR = "img"                       # Where current wallpaper is stored
-SAVED_DIR = "img/saved"               # Where saved wallpapers go
+```json
+{
+    "interval": 30,
+    "source": "wallpapers",
+    "random": true,
+    "save_downloaded": true,
+    "download_folder": "wallpapers",
+    "fit_mode": "fill"
+}
 ```
 
 ## 🗂️ Saved Wallpapers
 
-Your favorite wallpapers can be saved by pressing 's' when the desktop is in focus.
-Saved wallpapers are stored in the 'saved' directory with sequential numbering:
+Your favorite wallpapers can be saved to the `img/saved` directory with sequential numbering:
 
 - `wallpaper-001.jpg`
 - `wallpaper-002.jpg`
@@ -109,27 +127,33 @@ Saved wallpapers are stored in the 'saved' directory with sequential numbering:
 
 ### Common Issues
 
-1. **No keyboard input detected**
-   - Make sure the desktop window is active/in focus
-   - Check if you have admin rights
-   - Try reinstalling the keyboard module: `pip install keyboard --upgrade`
-
-2. **API rate limit reached**
-   - The application will automatically slow down
-   - Wait for the rate limit to reset (about an hour)
-   - Default API key has limited requests, consider getting your own
-
-3. **Wallpaper not changing**
+1. **Wallpaper not changing**
    - Check your internet connection
-   - Verify the img directory exists and is writable
-   - Check console for error messages
+   - Verify the wallpaper directory exists and is writable
+   - Check logs for error messages
+
+2. **Installation issues**
+   - Make sure you have the correct Python version
+   - Try running `create_venv.py` with administrator privileges
+   - Verify that your pip can access external packages
 
 ## 🧪 Development
 
-### Setting up a development environment
+### Virtual Environment
+
+This project uses `.venv` as the standard directory for virtual environments:
 
 ```bash
-# Install dev dependencies
+# Create virtual environment
+python -m venv .venv
+
+# Activate (Windows)
+.venv\Scripts\activate
+
+# Activate (macOS/Linux)
+source .venv/bin/activate
+
+# Install development dependencies
 pip install -e ".[dev]"
 ```
 
@@ -148,30 +172,38 @@ pytest -v
 To generate a test coverage report:
 
 ```bash
-pytest --cov=src
+pytest --cov
+```
+
+### Code formatting
+
+Format the code with black:
+```
+black src tests
 ```
 
 ## 📂 Project Structure
 
 ```
-.
-├── .vscode/                  # VS Code configuration
-├── img/                      # Contains downloaded wallpaper images
-│   ├── saved/                # Directory for saved wallpapers
-├── src/                      # Source code directory
-│   ├── categories.py         # Category definitions
-│   ├── cli.py                # Command-line interface
-│   ├── config.py             # Configuration settings
-│   ├── dependency_handler.py # Dependency management
-│   ├── init_dirs.py          # Directory initialization
-│   ├── logger.py             # Logging configuration
-│   ├── main.py               # Main program logic
-│   ├── unsplash_api.py       # Unsplash API interaction
-│   └── wallpaper.py          # Wallpaper setting functions
-├── tests/                    # Test suite
-├── README.md                 # This documentation
-├── requirements.txt          # Dependencies
-└── wallpaper_changer.py      # Main entry point
+wallpaper-changer/
+├── src/
+│   └── wallpaper_changer/    # Main package
+│       ├── __init__.py       # Package definition
+│       ├── main.py           # Entry point
+│       ├── config.py         # Configuration handling
+│       └── wallpaper_handler.py  # Wallpaper operations
+├── tests/                    # Test directory
+├── wallpapers/               # Default wallpapers directory
+├── img/
+│   └── saved/                # Directory for saved wallpapers
+├── .venv/                    # Virtual environment (not in repo)
+├── pyproject.toml            # Project configuration
+├── create_venv.py            # Virtual environment setup helper
+├── setup.bat                 # Windows setup script
+├── setup.sh                  # Unix setup script 
+├── run.bat                   # Windows quick start
+├── run.sh                    # Unix quick start
+└── README.md                 # This documentation
 ```
 
 ## 📜 License

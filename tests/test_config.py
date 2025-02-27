@@ -1,25 +1,30 @@
 """
 Tests for the config module
 """
-import os
 import json
+import os
 import tempfile
 import unittest
 from unittest.mock import patch
 
 from src.wallpaper_changer.config import Config
 
+
 class TestConfig(unittest.TestCase):
     """Test cases for the Config class"""
     
     def test_default_config(self):
         """Test default configuration values"""
-        with tempfile.NamedTemporaryFile(delete=False) as temp:
-            temp_name = temp.name
-            
+        # Create a temporary file that will be properly closed and deleted
+        fd, temp_name = tempfile.mkstemp()
+        os.close(fd)
+        
         try:
-            # Use a temporary file path that doesn't exist
+            # Use a temporary file path
             config = Config(temp_name)
+            
+            # Force a save to ensure the file is written
+            config.save()
             
             # Check default values
             self.assertEqual(config.get('interval'), 30)
@@ -30,8 +35,10 @@ class TestConfig(unittest.TestCase):
             self.assertTrue(os.path.exists(temp_name))
             
             # Check file contents
-            with open(temp_name, 'r') as f:
-                saved_config = json.load(f)
+            with open(temp_name, 'r', encoding='utf-8') as f:
+                content = f.read()
+                self.assertTrue(len(content) > 0, "Config file is empty")
+                saved_config = json.loads(content)
                 self.assertEqual(saved_config['interval'], 30)
         finally:
             # Clean up
@@ -40,17 +47,22 @@ class TestConfig(unittest.TestCase):
     
     def test_custom_config(self):
         """Test loading custom configuration"""
-        with tempfile.NamedTemporaryFile(delete=False) as temp:
+        # Create a temporary file that will be properly closed
+        fd, temp_name = tempfile.mkstemp()
+        os.close(fd)
+        
+        try:
             # Create a custom config
             custom_config = {
                 'interval': 60,
                 'source': 'custom_dir',
                 'random': False
             }
-            json.dump(custom_config, temp)
-            temp_name = temp.name
             
-        try:
+            # Write the custom config to the temp file
+            with open(temp_name, 'w', encoding='utf-8') as f:
+                json.dump(custom_config, f)
+            
             # Load the custom config
             config = Config(temp_name)
             
@@ -68,9 +80,10 @@ class TestConfig(unittest.TestCase):
     
     def test_set_value(self):
         """Test setting configuration values"""
-        with tempfile.NamedTemporaryFile(delete=False) as temp:
-            temp_name = temp.name
-            
+        # Create a temporary file that will be properly closed
+        fd, temp_name = tempfile.mkstemp()
+        os.close(fd)
+        
         try:
             config = Config(temp_name)
             
@@ -81,7 +94,7 @@ class TestConfig(unittest.TestCase):
             self.assertEqual(config.get('interval'), 120)
             
             # Check it was saved to file
-            with open(temp_name, 'r') as f:
+            with open(temp_name, 'r', encoding='utf-8') as f:
                 saved_config = json.load(f)
                 self.assertEqual(saved_config['interval'], 120)
                 
