@@ -18,13 +18,17 @@ error_exit() {
     exit 1
 }
 
+# Go to script directory (equivalent to cd /d "%~dp0" in batch)
+cd "$(dirname "$0")" || error_exit "Failed to change to script directory"
+
 # Display welcome message
 echo -e "${BLUE}=== Wallpaper Changer Quick Start ===${NC}"
 echo -e "${BLUE}Setting up your environment and starting the application...${NC}"
+echo
 
 # Check if Python is installed
 if ! command -v python3 &> /dev/null; then
-    error_exit "Python 3 is not installed or not in PATH. Please install Python 3 and try again."
+    error_exit "Python is not installed or not in PATH. Please install Python and try again."
 fi
 
 # Check if virtual environment exists, create if not
@@ -39,18 +43,28 @@ fi
 echo -e "${GREEN}Activating virtual environment...${NC}"
 source .venv/bin/activate || error_exit "Failed to activate virtual environment"
 
-# Start the application
-echo -e "${GREEN}Starting Wallpaper Changer...${NC}"
-echo -e "${YELLOW}Tip: Press 'n' for new wallpaper, 's' to save current wallpaper, 'q' to quit${NC}"
-echo ""
+# Install requirements
+echo -e "${GREEN}Installing required packages...${NC}"
+pip install -q keyboard colorama
 
-# Run the application with any passed arguments
-python3 -m wallpaper_changer.main "$@"
+# Start the application with auto mode and category list
+echo -e "${GREEN}Starting Wallpaper Changer...${NC}"
+echo
+
+# Run application with appropriate default settings
+python -m src.integrated_main --auto --list-categories "$@"
+EXIT_CODE=$?
 
 # Deactivate virtual environment when done
 deactivate
 
-echo ""
-echo -e "${GREEN}Thank you for using Wallpaper Changer!${NC}"
-echo "Press any key to exit..."
-read -n 1
+# Show appropriate exit message
+if [ $EXIT_CODE -ne 0 ]; then
+    echo -e "${RED}Wallpaper Changer exited with error code $EXIT_CODE${NC}"
+    # Shell equivalent of "pause" is to wait for a keypress
+    echo "Press any key to continue..."
+    read -n 1
+fi
+
+# Exit with the same code as the application
+exit $EXIT_CODE

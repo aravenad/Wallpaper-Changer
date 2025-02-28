@@ -31,6 +31,7 @@ wallpapers/
 img/saved/
 img/saved/wallpaper-*.jpg
 wallpaper-[0-9][0-9][0-9].jpg
+img/wallpaper.jpg
 
 # Application specific
 config.ini

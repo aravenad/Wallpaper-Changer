@@ -16,6 +16,7 @@ Automatically changes your desktop wallpaper at regular intervals with beautiful
 - ⚡ **Adaptive rate limit handling** to stay within Unsplash API limits
 - 🌈 **Colorful terminal output** for better usability
 - 🧪 **Comprehensive test suite** for reliability
+- 🚫 **Demo mode** - works without an API key using curated images
 
 ## 🔧 Requirements
 
@@ -42,35 +43,16 @@ chmod +x run.sh
 ./run.sh
 ```
 
-### For Developers
+## API Key Setup (Optional)
 
-1. Clone or download this repository:
-   ```bash
-   git clone https://github.com/yourusername/wallpaper-changer.git
-   cd wallpaper-changer
+By default, the application runs in demo mode with a selection of high-quality images. For more variety, get your own Unsplash API key:
+
+1. Sign up at [Unsplash Developers](https://unsplash.com/developers)
+2. Create a new application
+3. Copy your Access Key
+4. Create a `.env` file in the project root with:
    ```
-
-2. Set up a virtual environment and install dependencies:
-   ```bash
-   # Windows:
-   setup.bat
-   
-   # macOS/Linux:
-   ./setup.sh
-   ```
-
-   Alternatively, use the helper script directly:
-   ```bash
-   python create_venv.py
-   ```
-
-3. Activate the environment:
-   ```bash
-   # Windows:
-   .venv\Scripts\activate
-   
-   # macOS/Linux:
-   source .venv/bin/activate
+   UNSPLASH_ACCESS_KEY=your_access_key_here
    ```
 
 ## 🎮 Usage
@@ -81,10 +63,14 @@ chmod +x run.sh
 wallpaper-changer [options]
 
 Options:
-  --config, -c    Path to a custom configuration file (default: settings.json)
-  --interval, -i  Time between wallpaper changes in minutes
-  --source, -s    Directory or URL for wallpapers
-  --once          Change wallpaper once and exit
+  --config, -c       Path to a custom configuration file (default: settings.json)
+  --interval, -i     Time between wallpaper changes in minutes (default: 15)
+  --category, -cat   Specific wallpaper category to use
+  --search           Search term for wallpapers
+  --auto, -a         Auto-adjust interval based on API limits
+  --once             Change wallpaper once and exit
+  --save             Save downloaded wallpaper
+  --list-categories  List available categories and exit
 ```
 
 ### Examples
@@ -93,8 +79,11 @@ Options:
 # Change wallpaper once and exit
 wallpaper-changer --once
 
-# Use images from a specific folder with a 1-hour interval
-wallpaper-changer --source "C:\My Wallpapers" --interval 60
+# Use nature category with a 1-hour interval
+wallpaper-changer --category nature --interval 60
+
+# Search for specific wallpapers
+wallpaper-changer --search "mountain sunset"
 
 # Use custom configuration file
 wallpaper-changer --config my_settings.json
@@ -123,19 +112,36 @@ Your favorite wallpapers can be saved to the `img/saved` directory with sequenti
 - `wallpaper-002.jpg`
 - etc.
 
+## ⌨️ Keyboard Shortcuts
+
+While the application is running:
+- `n` - Manually change to a new wallpaper
+- `s` - Save the current wallpaper to your saved collection
+- `q` - Quit the application
+
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **Wallpaper not changing**
+1. **Keyboard shortcuts not working**
+   - Make sure the terminal window is not in focus
+   - Try running with administrator privileges
+   - Check that the keyboard module is installed
+
+2. **Wallpaper not changing**
    - Check your internet connection
    - Verify the wallpaper directory exists and is writable
    - Check logs for error messages
 
-2. **Installation issues**
+3. **Installation issues**
    - Make sure you have the correct Python version
    - Try running `create_venv.py` with administrator privileges
    - Verify that your pip can access external packages
+
+4. **API Key issues**
+   - The app will work in demo mode without an API key
+   - Check your `.env` file format
+   - Verify your Unsplash API key is valid
 
 ## 🧪 Development
 

@@ -1,78 +1,44 @@
 # src/categories.py
 
 """
-This module contains popular Unsplash categories.
-These are collected from Unsplash's website and popular search topics.
+Module containing wallpaper categories for the Unsplash API.
 """
 
-# First define all categories, then we'll deduplicate them
-_CATEGORIES_WITH_DUPES = [
+# List of available wallpaper categories
+CATEGORIES = [
     # Nature
-    "animals", "birds", "cats", "dogs", "fish", "flowers", "forest", 
-    "garden", "landscape", "mountains", "nature", "ocean", "plants", 
-    "river", "sea", "sky", "sunset", "trees", "water", "wildlife",
+    "nature", "landscape", "forest", "mountains", "ocean", "beach", "sunset",
+    "waterfall", "trees", "flowers", "wildlife", "desert", "sky", "underwater",
+    "jungle", "river", "winter", "autumn", "spring", "summer", "stars",
     
-    # Urban & Architecture
-    "architecture", "buildings", "city", "interior", "street", "urban",
+    # Urban
+    "architecture", "city", "street", "buildings", "urban", "night", "travel",
+    "skyline", "bridge", "downtown", "traffic", "park",
+    
+    # Colors
+    "blue", "red", "green", "yellow", "purple", "orange", "black", "white",
+    
+    # Styles
+    "minimalist", "vintage", "modern", "abstract", "pattern", "texture",
     
     # Technology
-    "computers", "coding", "data", "technology", "programming", "developer",
+    "technology", "computer", "digital", "space", "scifi", "cyberpunk",
     
-    # Art & Abstract
-    "abstract", "art", "design", "digital-art", "geometric", "illustrations", 
-    "minimal", "pattern", "texture", "3d-renders",
+    # Other
+    "dark", "light", "wallpaper", "background", "art", "photography",
+    "food", "car", "music", "sports", "animal", "pets",
     
-    # Travel & Places
-    "beach", "desert", "europe", "islands", "japan", "travel", "tropical",
-    
-    # Food & Drinks
-    "coffee", "drinks", "food", "fruits", "healthy",
-    
-    # People & Lifestyle
-    "business", "fashion", "fitness", "lifestyle", "people", "portrait",
-    
-    # Transportation
-    "cars", "motorcycle", "transportation",
-    
-    # Seasonal & Events
-    "christmas", "halloween", "holiday", "summer", "winter",
-    
-    # Space & Science
-    "astronomy", "galaxy", "mars", "milky-way", "moon", "planets", "science", "space", "stars",
-    
-    # Sports & Recreation
-    "cycling", "hiking", "sports", "swimming",
-    
-    # Backgrounds & Textures
-    "backgrounds", "dark", "gradients", "light", "texture", "wallpapers",
-    
-    # Gaming
-    "gaming", "video-games",
-    
-    # Books & Education
-    "books", "education", "library", "school",
-    
-    # Miscellaneous
-    "random", "vintage"
+    # Special
+    "random"
 ]
 
-# Deduplicate the list while preserving order
+# Remove any duplicates while preserving order
 seen = set()
-UNSPLASH_CATEGORIES = [x for x in _CATEGORIES_WITH_DUPES if not (x in seen or seen.add(x))]
-
-# Print information about any duplicates that were found
-duplicate_count = len(_CATEGORIES_WITH_DUPES) - len(UNSPLASH_CATEGORIES)
-if duplicate_count > 0:
-    # Find duplicates for information purposes
-    from collections import Counter
-    duplicates = [item for item, count in Counter(_CATEGORIES_WITH_DUPES).items() if count > 1]
-    print(f"Removed {duplicate_count} duplicates from categories: {', '.join(duplicates)}")
-
-def get_categories():
-    """
-    Get the list of available Unsplash categories.
+duplicates = [cat for cat in CATEGORIES if cat in seen or seen.add(cat)]
+if duplicates:
+    print(f"Removed {len(duplicates)} duplicates from categories: {', '.join(duplicates)}")
     
-    Returns:
-        list: List of category strings
-    """
-    return UNSPLASH_CATEGORIES
+CATEGORIES = [cat for cat in CATEGORIES if cat in seen]
+
+# For backward compatibility
+get_categories = lambda: CATEGORIES
